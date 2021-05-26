@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="TemperatureInterval">
+        <item>1 s</item>
+        <item>5 s</item>
+        <item>15 s</item>
+        <item>30 s</item>
+        <item>1 m</item>
+        <item>5 m</item>
+    </string-array>
+    <string-array name="NineAxisImuInterval">
+        <item>1/13 s</item>
+        <item>1/26 s</item>
+        <item>1/52 s</item>
+        <item>1/104 s</item>
+        <item>1/208 s</item>
+    </string-array>
+    <string-array name="BatteryVoltageInterval">
+        <item>1/13 s</item>
+        <item>1/26 s</item>
+        <item>1/52 s</item>
+        <item>1/104 s</item>
+        <item>1/208 s</item>
+    </string-array>
+</resources>
