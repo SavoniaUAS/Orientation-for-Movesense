@@ -14,7 +14,7 @@ import java.util.List;
 import fi.digi.savonia.movesense.Models.CsvDataModel;
 
 /**
- * Aputyökalu Csv-tiedoston kirjoittamiseen.
+ * Helppokäyttöinen wrapper Csv-tiedoston kirjoittamiseen.
  */
 public class CsvWriter {
 

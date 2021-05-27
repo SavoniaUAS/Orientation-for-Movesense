@@ -2,8 +2,8 @@ package fi.digi.savonia.movesense.Tools;
 
 
 /**
- * Aputyökalu Vector5 laskemiseen
- */
+ * Helppokäyttöinen wrapper vektori5 laskutoimituksiin
+        */
 public class Vector5 {    public int addr = 0;
     public Vector3 v = new Vector3();
     public float t = 0;

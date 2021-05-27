@@ -10,7 +10,7 @@ import fi.digi.savonia.movesense.Models.Movesense.Float3DVector;
 import fi.digi.savonia.movesense.Tools.Listeners.ImuActionListener;
 
 /**
- * Työkalu Asennon laskemiseen Movesense-sensorin datan perusteella
+ * Helppokäyttöinen wrapper sensorifuusioon, analysointiin ja vertailuun.
  */
 public class ImuHelper {
 
@@ -90,7 +90,7 @@ public class ImuHelper {
      */
     float angle=0;
     /**
-     * Värähtelyn datan listan pituus
+     * Värähtelyn data listan pituus
      */
     int VibrationBufferLength;
     /**
@@ -122,7 +122,7 @@ public class ImuHelper {
     }
 
     /**
-     * Määrittää Luokantoiminnan lukuintervallin perusteella
+     * Luokantoiminnan määritys lukuintervallin perusteella
      * @param sampleRate Lukuintervalli (Näytettä sekunnissa)
      */
     public ImuHelper(float sampleRate)
@@ -141,7 +141,7 @@ public class ImuHelper {
     }
 
     /**
-     * Magnetometrin kalibrointi. Kalibrointi vaatisi lisätyötä.
+     * Magnetometrin kalibrointi kerätyn datan perusteella. Kalibrointi vaatii lisätyötä.
      */
     public synchronized void MagnetometerCalibration()
     {
@@ -160,7 +160,7 @@ public class ImuHelper {
     }
 
     /**
-     * Uuden mittaustuloksen syöttäminen analyysiin
+     *
      * @param data
      */
     public synchronized void Update(Imu9Data data)
@@ -184,7 +184,7 @@ public class ImuHelper {
                 //gyroscope.MininumAccetableValue(3);
 
                 output = filter.calculateOrientation(deltaT,new float[] {gyroscope.x-gyroX_Offset,gyroscope.y-gyroY_Offset,gyroscope.z-gyroZ_Offset},new float[] {accelerometer.x,accelerometer.y, accelerometer.z},new float[] {magnetometer.x-magnX_Offset,magnetometer.y-magnY_Offset,magnetometer.z-magnZ_Offset});
-                //output.ApplyLowPassFilter(accelerationLowPass);
+
                 if(calibrateAngles)
                 {
                     calibrateAngles=false;
@@ -206,7 +206,7 @@ public class ImuHelper {
     }
 
     /**
-     * Lisätään data magnetometrin kalibrointiin.
+     * IMU9 parametrin lisäys magnetometrin kalibrointiin ja tärinän analysointiin.
      * @param data
      */
     private synchronized void AddToBuffer(Imu9Data data) {
@@ -217,7 +217,8 @@ public class ImuHelper {
             if(calibrateMagnetometerCount>0)
             {
                 calibrateMagnetometerCount--;
-                MagnetometerCalibration();
+                // Käyttö edellyttää kalibroinnin kehittämistä
+                // MagnetometerCalibration();
             }
         }
 
@@ -265,7 +266,7 @@ public class ImuHelper {
     }
 
     /**
-     * Sisäinen metodi Analyysin tuloksen välittämiiseen eteenpäin
+     * Analyysin tuloksen välitys tapahtuman kautta.
      */
     private void OnUpdate()
     {
@@ -289,7 +290,7 @@ public class ImuHelper {
     }
 
     /**
-     * Kalibroi kulmanmuutos sensorin. Movesense-sensorin tulisi olla paikallaan tällöin.
+     * Kulmanmuutos parametrin kalibroinnin aktivointi. Movesense-sensorin tulisi olla paikallaan.
      */
     public void Calibrate()
     {
@@ -326,7 +327,7 @@ public class ImuHelper {
     }
 
     /**
-     * Asettaa kuuntelijan luokkaan.
+     * Kuuntelijat asetus luokan tapahtumille.
      * @param imuActionListener
      */
     public void SetImuActionListener(ImuActionListener imuActionListener)
@@ -335,8 +336,8 @@ public class ImuHelper {
     }
 
     /**
-     * Analysoi sensorin asennon
-     * @return Vektori kulman ero painovoima vektoriin
+     * Sensorin asennon analysointi
+     * @return Vektorin kulmaero painovoima vektoriin
      */
     public float GetOrientation()
     {
@@ -362,7 +363,7 @@ public class ImuHelper {
     }
 
     /**
-     * Laskee tärinän intensiteetin historian perusteella.
+     * Tärinän intensiteenin laskenta historian perusteella.
      * @return
      */
     public synchronized float GetVibration()

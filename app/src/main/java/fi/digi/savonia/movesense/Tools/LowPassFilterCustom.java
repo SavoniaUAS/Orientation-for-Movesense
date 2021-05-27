@@ -41,9 +41,9 @@ public class LowPassFilterCustom
     }
 
     /**
-     * Lisää näytteen X-, Y- ja Z-akselilta suodattimeen
-     * @param values X-, Y- ja Z-akselin näytteet.
-     * @return Palauttaa suodatettut arvot X-, Y- ja Z-askelilta
+     * Näytteen X-, Y- ja Z-akselilta käsittely suodattimella
+     * @param values X-, Y- ja Z-akselin näyte.
+     * @return Palauttaa suodatetun arvon X-, Y- ja Z-askelilla
      */
     public float[] filter(float[] values)
     {

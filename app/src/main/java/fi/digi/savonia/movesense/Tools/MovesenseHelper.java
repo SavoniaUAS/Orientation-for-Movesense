@@ -41,7 +41,7 @@ import fi.digi.savonia.movesense.Models.Movesense.Info.TemperatureInfo;
 import fi.digi.savonia.movesense.Tools.Listeners.MovesenseActionListener;
 
 /**
- * Aputyökalu Movesense-sensorin kommunikaatioon
+ * Helppokäyttöinen wrapper Movesense-sensorin kommunikaatioon
  */
 public class MovesenseHelper {
 
@@ -66,15 +66,15 @@ public class MovesenseHelper {
      */
     private final String URI_EVENTLISTENER = "suunto://MDS/EventListener";
     /**
-     * Resurssi URI alkaa aina tällä
+     * Resurssi URI: Resusrssi uri alkaa aina tällä
      */
     private final String SCHEME_PREFIX = "suunto://";
     /**
-     * Info tyyppisen tiedon loppupääte
+     * Info tyyppisen tiedon loppuosa
      */
     private final String INFO_ENDFIX = "/Info";
     /**
-     * Konfiguraatio tyyppisen tiedon loppupääte
+     * Konfiguraatio tyyppisen tiedon loppuosa
      */
     private final String CONFIG_ENDFIX = "/Config";
     /**
@@ -127,47 +127,47 @@ public class MovesenseHelper {
      */
     private String deviceAddress;
     /**
-     * Tila muuttuja Movesense-sensoriin yhteys muodostettu
+     * Tila muuttuja: yhteys muodostettu Movesense-sensoriin
      */
     private boolean isConnected = false;
     /**
-     * Ajastin Lämpötila mittausten suorittamiseen
+     * Lämpötila mittausten ajastin
      */
     private Timer temperatureMeasurementTimer;
     /**
-     * Ajastin pariston varauksen lukemiseen
+     * Pariston varauksen lukemisen ajastin
      */
     private Timer batteryVoltageMeasurementTimer;
     /**
-     * Tilaus EKG-parametrille
+     * EKG-parametrin tilaus
      */
     private MdsSubscription ecgSubscription;
     /**
-     * Tilaus Syke-parametrille
+     * Syke-parametrin tilaus
      */
     private MdsSubscription hrSubscription;
     /**
-     * Tilaus Kiihtyvyys-parametrille
+     * Kiihtyvyys-parametrin tilaus
      */
     private MdsSubscription accSubscription;
     /**
-     * Tilaus kulmanmuutos-parametrille
+     * kulmanmuutos-parametrin tilaus
      */
     private MdsSubscription gyroSubscription;
     /**
-     * Tilaus Kiihtyvyydelle ja kulmanmuutos parametreille
+     * Kiihtyvyyden ja kulmanmuutoksen parametrien tilaus
      */
     private MdsSubscription imu6Subscription;
     /**
-     * Tilaus Kiihtyvyydelle ja Magnetometrille
+     * Kiihtyvyyden ja Magnetometrin parametrin tilaus
      */
     private MdsSubscription imu6mSubscription;
     /**
-     * Tilaus Kiihtyvyydelle, Kulmanmuutokselle ja Magnetometrille.
+     * Kiihtyvyyden, Kulmanmuutoksen ja Magnetometrin parametrien tilaus.
      */
     private MdsSubscription imu9Subscription;
     /**
-     * Tilaus Magnetometrille
+     * Magnetometrin parametrin tilaus
      */
     private MdsSubscription magnSubscription;
 
@@ -310,7 +310,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Kuuntelija yhteyden muodostuksen tilojen seurantaan
+     * Kuuntelija yhteyden muodostuksen tapahtumien seurantaan.
      */
     private MdsConnectionListener mdsConnectionListener = new MdsConnectionListener() {
         @Override
@@ -338,7 +338,7 @@ public class MovesenseHelper {
     };
 
     /**
-     * Asettaa lukuintervallin parametrille
+     * lukuintervallin asetus parametrille
      * @param measurementInterval Lukuintervalli Luokkamuodossa.
      */
     public void SetDataRate(MeasurementInterval measurementInterval)
@@ -375,7 +375,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Asettaa lukuintervallin parametrille. Lukuintervallin täytyy olla tuettu.
+     * lukuintervallin asetus parametrille. Lukuintervallin täytyy olla tuettu. Tuetut lukuintervallin Parametrin Info-tiedolla.
      * @param sensor valittu parametri
      * @param rate lukuintervalli numerona
      */
@@ -413,8 +413,8 @@ public class MovesenseHelper {
     }
 
     /**
-     * Asettaa kuuntelijan aputyökaluun
-     * @param movesenseActionListener
+     * Kuuntelijan asetus
+     * @param movesenseActionListener Tapahtumien kuuntelija.
      */
     public void SetMovesenseActionListener(MovesenseActionListener movesenseActionListener)
     {
@@ -422,7 +422,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Alustaa Aputyökalun
+     * Luokan käyttö vaatii sovelluksen kontekstia. Konteksti on Movesense-kirjastolle.
      * @param context Sovelluksen konteksti
      */
     public MovesenseHelper(Context context)
@@ -431,7 +431,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Muodostaa yhteyden Movesense-sensoriin
+     * Yhteyden muodostus Movesense-sensoriin.
      * @param deviceAddress Bluetooth MAC-osoite
      */
     public void Connect(String deviceAddress)
@@ -442,7 +442,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Katkaisee yhteyden Movesense-sensoriin
+     * Yhteyden katkaisu Movesense-sensoriin
      */
     public void Disconnect()
     {
@@ -454,7 +454,7 @@ public class MovesenseHelper {
     }
 
     /**
-     *
+     * IMU9 parametrin konfiguraation asetus ja sen aktivointi.
      * @param info Movesense-sensorin rapotoima IMU INFO
      * @param SampleRateIndex Lukuintervallin valinta indeksinä. Indeksi Info parametrin lukuintervalleista.
      * @param AccIndex Kiihtyvyys anturin skaalan valinta indeksinä
@@ -498,12 +498,16 @@ public class MovesenseHelper {
         };
 
         mMovesense.put(putPaths[0],putContent[0],listener);
+        // TODO: Gyroskoopin konfiguraatio ei toimi jostain syystä.
+        //mMovesense.put(putPaths[1],putContent[1],listener);
         mMovesense.put(putPaths[0],putContent[0],listener);
+        // TODO: Magnetomerin konfiguraatio ei toimi jostain syystä.
+        //mMovesense.put(putPaths[2],putContent[2],listener);
         mMovesense.put(putPaths[0],putContent[0],listener);
     }
 
     /**
-     * Sisäinen metodi lukemisen aloittamiseen määrityksen jälkeen.
+     * 3 onnistunutta konfiguraatiota käynnistää mittaus datan lukemisen.
      */
     private void OnSuccess()
     {
@@ -520,11 +524,11 @@ public class MovesenseHelper {
      */
     private void OnFailure()
     {
-        // TODO: TEE jotain?
+        // TODO: TEE jotain
     }
 
     /**
-     * Sisäinen metodi lämpötilan tai pariston varauksen lukemiseen.
+     * lämpötilan tai pariston varauksen lukeminen luokan sisäisesti.
      * @param sensor
      */
     private void InternalGet(Sensor sensor)
@@ -561,7 +565,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Sisäinen metodi datan tilaukseen Movesense-sensorilta (Sykemittari ja )
+     * Sykkeen luku Movesense-sensorilta sisäisesti joka N näyte. 1/N
      * @param serial Movesense-sensorin sarjanumero
      * @param uri Tilausosoite
      * @param sensor Parametrin tyyppi
@@ -610,7 +614,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Sisäinen metodi datan tilaukseen Movesense-sensorilta
+     * Parametrien luku Movesense-sensorilta sisäisesti
      * @param serial Movesense-sensorin sarjanumero
      * @param uri Tilausosoite
      * @param sensor Parametrin tyyppi
@@ -636,8 +640,8 @@ public class MovesenseHelper {
     }
 
     /**
-     * Tilaa sensorilta measurementIntervals listassa olevat parametrit
-     * @param measurementIntervals Parametrien tiedot listassa luokkamuodossa
+     * MeasurementIntervals listan parametrit tilaus Movesense-sensorilta
+     * @param measurementIntervals Parametrien tiedot
      */
     public void SubscribeAll(MeasurementInterval[] measurementIntervals)
     {
@@ -653,9 +657,9 @@ public class MovesenseHelper {
     }
 
     /**
-     * Tilaa Movesense-sensorilta parametrin. Lukuintervallin on asetettu aiemmin.
+     * Parametrin tilaus Movesense-sensorilta. Lukuintervallin on asetettu aiemmin.
      * @param sensor
-     * @return
+     * @return Tilauksen onnistuminen
      */
     public boolean Subscribe(Sensor sensor)
     {
@@ -698,9 +702,9 @@ public class MovesenseHelper {
     }
 
     /**
-     * Keskeyttää tilauksen Movesense-sensorilta
-     * @param sensor Valittu sensori
-     * @return Onnistuminen
+     * Tilauksen keskeyttäminen Movesense-sensorilta.
+     * @param sensor Parametrin valinta
+     * @return Tilauksen keskeytyksen onnistuminen
      */
     public boolean Unsubscribe(Sensor sensor)
     {
@@ -752,7 +756,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Keskeyttää kaikki tilaukset Movesense-sensorilta
+     * Kaikkien tilausten keskeytys Movesense-sensorilta
      */
     public void UnsubscribeAll()
     {
@@ -818,7 +822,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Muodostaa resurssi URIN
+     * Kokonaisen URI-resurssin muodostus
      * @param serial Movesense-sensorin sarjanumero
      * @param uri Uri
      * @return Muodostettu resurssi URI
@@ -829,7 +833,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Muodostaa resurssi URIN
+     * Kokonaisen URI-resurssin muodostus
      * @param serial Movesense-sensorin sarjanumero
      * @param path polku resurssiin
      * @return Muodostettu polku resurssiin
@@ -840,7 +844,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Pyytää Movesense-sensorilta INFON parametriltä. Info sisältää skaalat, lukuintervallit, ym.
+     * Parametrin info-tiedon pyyntö Movesense-sensorilta. Info sisältää skaalat, lukuintervallit, ym.
      * @param sensor Valittu parametri
      */
     public void GetInfo(Sensor sensor)
@@ -900,7 +904,7 @@ public class MovesenseHelper {
     }
 
     /**
-     * Muuttaa Movesense-sensorilta luetun vastauksen olioksi
+     * Movesense-sensorin vastauksen deserialisointi
      * @param sData Movesense-sensorin vastaus
      * @param sensor Valittu sensori
      * @param info Onko Info-tyyppi

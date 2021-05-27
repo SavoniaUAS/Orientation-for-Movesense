@@ -10,7 +10,7 @@ import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
 /**
- * Aputyökalu rotaatiomatriisin yksinkertaiseen käyttöön
+ * Helppokäyttöinen wrapper rotaatiomatriisi laskentaan
  */
 public class RotationUtil {
 
@@ -45,7 +45,7 @@ public class RotationUtil {
 
 
     /**
-     * Käännetään vektoria Pitch, Roll ja Yaw akselin suhteen
+     * Vektoria Pitch, Roll ja Yaw akselin kääntö
      * @param in Pitch, roll ja Yaw muuttujassa
      * @return Käännetty vektori
      */
@@ -70,7 +70,7 @@ public class RotationUtil {
     }
 
     /**
-     * Luodaan rotaatiomatriisi X-, Y- ja Z-akselin kulmien arvojen perusteella. (Arvot Radiaaneja)
+     * Rotaatiomatriisin luonti X-, Y- ja Z-akselin arvojen perusteella. (Arvot Radiaaneja)
      * @param x X-akseli
      * @param y Y-akseli
      * @param z Z-akseli

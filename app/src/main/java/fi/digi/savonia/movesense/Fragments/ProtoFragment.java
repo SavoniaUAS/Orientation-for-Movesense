@@ -18,7 +18,7 @@ import android.widget.TextView;
 import fi.digi.savonia.movesense.R;
 
 /**
- * Fragmentti näyttää käyttäjälle värinän, Movesense-sensorin asennon kulmaeron painovoima vektoriin
+ * Fragmentti-näkymä näyttää käyttäjälle värinän, Movesense-sensorin asennon kulmaeron painovoima vektoriin
  */
 public class ProtoFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 

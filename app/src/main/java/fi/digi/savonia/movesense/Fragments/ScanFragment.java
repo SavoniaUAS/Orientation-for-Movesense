@@ -25,10 +25,7 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ScanFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * Fragmenti-näkymä etsii käyttäjälle Movesense-sensorit. Käyttäjä valitsee laitteen listasta.
  */
 public class ScanFragment extends Fragment implements AdapterView.OnItemLongClickListener, View.OnClickListener {
 

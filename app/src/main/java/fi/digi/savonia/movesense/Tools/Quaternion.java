@@ -5,7 +5,7 @@ import static java.lang.Math.sin;
 
 
 /**
- * Aputyökalu Kvaternion laskentaan
+ * Helppokäyttöinen wrapper kvaternion laskutoimituksiin
  */
 public class Quaternion {
     public float x, y, z, w;

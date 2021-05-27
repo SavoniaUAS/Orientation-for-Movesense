@@ -34,7 +34,7 @@ import com.polidea.rxandroidble2.RxBleDevice;
 public class MainActivity extends AppCompatActivity implements BluetoothActionListener, MovesenseActionListener, ScanFragment.OnFragmentInteractionListener, ProtoFragment.OnFragmentInteractionListener, ImuActionListener {
 
     /**
-     * Tarkan paikannuksen luvan kyselyn ID
+     * ID-tunniste tarkalle paikannukselle.
      */
     final int LOCATION_FINE_PERMISSIONS_REQUEST = 5;
     /**
@@ -46,27 +46,28 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
      */
     MovesenseHelper movesenseHelper;
     /**
-     * Sensorifuusio analysointi ja vertailu
+     * Kiihtyvyys ja kulmamuutos parametrien fuusio asennoksi, analysointi ja vertailu
      */
     ImuHelper imuHelper;
     /**
-     * Yhteyden muodostamisen status käyttöliittymä objekti
+     * Yhteyden muodostus info UI elementti
      */
     ProgressDialog progressDialog;
     /**
-     * Bluetooth-toiminnon aktivointi kyselyn ID
+     * ID-tunniste Bluetooth-yhteyden aktivoinille
      */
     final int REQUEST_ENABLE_BT = 876;
     /**
-     * Tilamuuttuja: Onko skannaus mahdollinen
+     * Tilamuuttuja: Bluetooth LE-skannaus mahdollinen
      */
-    boolean canScan = false;
+    boolean BleScanEnabled = false;
     /**
-     * Tilamuuttuja Nykyinen näytettävä Fragment-sivu
+     * Tilamuuttuja: Käyttäjälle näytettävä Fraagment-näkymä
      */
     Page currentPage = Page.scan;
     /**
      * Tuettuja arvoja on 13,26,52,104.
+     * <P></P>
      * SampleRateIndex     0  1  2   3
      */
     int dataRate = 52;
@@ -78,17 +79,17 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     public enum Page
     {
         /**
-         * Movesense-sensori haku
+         * Etsii Movesense-sensorin Bluetooth LE-yhteydellä.
          */
         scan,
         /**
-         * Tärinän ja Kulmaeron näyttäminen. Sovelluksen pääsivu
+         * Näyttää tärinän ja kulmaeron käyttäjälle.
          */
         proto
     }
 
     /**
-     * Luodaan näkymä ja pakotetaan sovellus toimimaan pystytilassa.
+     * Luo näkymän ja pakotettaa sovelluksen toimimaan pystytilassa.
      * @param savedInstanceState
      */
     @Override
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Käynnistää Proton datan keruun. Pyytää sensorilta IMU9 parametrin infon.
+     * Käynnistää mittaus datan keruun Movesense-sensorilta.
      */
     private void StartSensorReading()
     {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Asettaa Fragmentin näkyville
+     * Asettaa Fragmentin käyttäjän näkyville.
      * @param fragment Fragmentin instanssi
      * @param page Sivun tunniste
      */
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Yhdistää Movesense-sensoriin ja lopettaa Bluetooth LE - haun
+     * Muodostaa yhteyden Movesense-sensoriin ja keskeyttää Bluetooth LE - haun.
      * @param device
      */
     private void ConnectToMovesense(RxBleDevice device)
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Avaa odotattamis ilmoituksen ruudulle
+     * Asettaa otsikon ja viestin Progress Dialog elementtiin. Lopuksi Progress Dialog on näkyvillä.
      * @param title Otsikko
      * @param message Viesti
      */
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Kysyy käyttäjältä oikeutta käyttää Tarkkaa paikannusta. GPS-yhteyttä ei käytetä. Bluetooth LE - haku vaatii tätä.
+     * Luvan kysyminen käyttäjältä tarkkaan paikannukseen. ACCESS_FINE_LOCATION
      */
     private void CheckPermissions()
     {
@@ -203,8 +204,8 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     /**
      *Paikannus oikeuden kyselyn tulos käyttäjältä
      * @param requestCode Pyynnön tunniste
-     * @param permissions Pyydetty oikeus
-     * @param grantResults Pyynnön tulos
+     * @param permissions Pyydetty lupa
+     * @param grantResults Pyynnön vastaus
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -223,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Pyytää käyttäjää hyväksymään Bluetooth-yhteyden käyttöönoton
+     * Käyttäjältä on pyydetty Bluetooth-yhteyden aktivointi.
      * @param requestCode Pyynnön tunniste
-     * @param resultCode Pyynnön vastauksen koodi
+     * @param resultCode Pyynnön vastaus
      * @param data
      */
     @Override
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Alustaa tarvittavat työkalut ja aloittaa Bluetooth haun.
+     * Määrittää aputyökalut, asettaa haku-fragmentin näkyville ja tarkistaa Bluetooth-yhteyden vaatimusten täyttymisen.
      */
     private void Program()
     {
@@ -265,9 +266,9 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Hakee Näytettävän fragmentin instanssin
+     * Etsii näytettävän fragment-näkymän instanssin.
      * @param page Sivun tunniste
-     * @return Näytettävä fragmentti
+     * @return Näytettävä fragmentti. Null jos ei @page tyyppistä sivua ei ole auki.
      */
     private Fragment GetFragment(Page page)
     {
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     // Bluetooth Action Listener
 
     /**
-     * Movesense BLE-laite on löytynyt!
+     * Bluetooth LE-haku on löytänyt Movesense BLE-laitteen.
      * @param bleDevice Movesense-sensorin BLE-objekti
      */
     @Override
@@ -287,16 +288,16 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Valmiina Bluetooth LE-hakuun
+     * Valmis Bluetooth LE-hakuun
      */
     @Override
     public void ReadyToScan() {
         bluetoothHelper.Scan(30000);
-        canScan = true;
+        BleScanEnabled = true;
     }
 
     /**
-     * Bluetooth-yhteys ei ole aktivoitu. Pyytää käyttäjää aktivoimaan yhteyden.
+     * Bluetooth-yhteys ei ole aktivoitu. käyttäjää on pyydetty aktivoimaan yhteyden.
      */
     @Override
     public void BluetoothNotEnabled() {
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Paikannus oikeutta ei ole annettu! Bluetooth haku ei toimi!!!
+     * Paikannus oikeutta ei ole myönnetty! Bluetooth haku ei toimi.
      */
     @Override
     public void LocationPermissionNotGranted() {
@@ -314,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Paikannus ei ole aktivoitu!
+     * Paikannus-toiminto ei ole aktivoitu.
      */
     @Override
     public void LocationNotEnabled() {
@@ -322,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Bluetooth-yhteyttä ei ole saatavilla laitteessa.
+     * Bluetooth-yhteys ei ole saatavilla laitteessa.
      */
     @Override
     public void BluetoothNotAvailable() {
@@ -330,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Jokin virhe on tapahtunut!
+     * Virhe on tapahtunut!
      * @param explanation Virheen instanssi
      */
     @Override
@@ -341,11 +342,11 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     //ScanFragment Interaction Listener
 
     /**
-     * Skannaus aktivoitu
+     * Bluetooth LE- haku on aktivoitu
      */
     @Override
     public void onScanButtonPressed() {
-        if(canScan)
+        if(BleScanEnabled)
         {
             bluetoothHelper.StopScan();
             ScanFragment scanFragment = (ScanFragment) GetFragment(Page.scan);
@@ -355,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Movesense-sensori on valittu. Valittuun laitteeseen yhdistetään.
+     * Movesense-sensori on valittu. Valittuun laitteeseen muodostetaan yhdistetään.
      * @param bleDevice Valitun Movesense-sensorin BLE-objekti
      */
     @Override
@@ -368,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     //Movesense Action Listener
 
     /**
-     * Movesense-sensori yhdistämisen tulos.
+     * Yhteyden muodostus Movesense-sensoriin on palauttanut vastauksen.
      * @param success Yhteys muodostettu True/False
      */
     @Override
@@ -391,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Yhteys Movesense-sensoriin on katkaistu
+     * Yhteys Movesense-sensoriin on katkaistu.
      * @param reason Syy tekstinä
      */
     @Override
@@ -422,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Movesense-sensorilta on vastaanotettu dataa!
+     * Movesense-sensori on lähettänyt mittaus dataa.
      * @param Data Data
      * @param sensor Parametri
      */
@@ -458,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Parametrin info on vastaanotettu.
+     * Movesense-sensorin parametri info on vastaanotettu.
      * @param Data Infon data
      * @param sensor Sensori
      */
@@ -476,7 +477,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     // Proto Fragment
 
     /**
-     * Proton toiminto päälle!
+     * Proto fragment-näkymä on valmis käyttöön. Käynnistää mittausdatan Movesense-sensorilta.
      */
     @Override
     public void onReadyProto() {
@@ -484,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Proton näkymän päivitys aktiiviseksi
+     * Proto fragment-näkymässä on painettu Aloitettu nappia
      */
     @Override
     public void onStartProto() {
@@ -492,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Proton näkymän päivitysten deaktivointi
+     * Proto fragment-näkymässä on painettu lopeta nappia
      */
     @Override
     public void onStopProto() {
@@ -509,7 +510,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Kalibroidaan kulmanmuutos ja asetetaan kulman vertailupiste.
+     * Proto fragment-näkymässä on painettu Kalibroi nappia
      */
     @Override
     public void onCalibrationProto() {
@@ -517,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Reset toiminto aktivoitu Proto näkymästä
+     * Proto fragment-näkymässä on painettu kalibroi nappia
      */
     @Override
     public void onResetProto() {
@@ -527,7 +528,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     // Imu Action Listener
 
     /**
-     * Kalibrointi valmis!
+     * Kalibrointi on valmis!
      */
     @Override
     public void CalibrationReady() {
@@ -535,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothActionLi
     }
 
     /**
-     * Päivittää muutoksen käyttöliittymään
+     * Kulmaero ja tärinä on analysoitu.
      * @param Angle Kulmaero
      * @param vibration Tärinä
      */

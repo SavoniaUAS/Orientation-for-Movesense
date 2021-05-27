@@ -13,12 +13,12 @@ public class MagnetometerConfig {
 
     public static class MagnetometerSensorConfig
     {
-        @SerializedName("GRange")
-        public int GRange;
+        @SerializedName("Scale")
+        public int Scale;
 
-        public MagnetometerSensorConfig(int GRange)
+        public MagnetometerSensorConfig(int Scale)
         {
-            this.GRange = GRange;
+            this.Scale = Scale;
         }
     }
 }

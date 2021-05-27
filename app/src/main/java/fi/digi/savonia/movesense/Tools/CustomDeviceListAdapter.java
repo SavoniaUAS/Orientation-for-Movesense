@@ -17,12 +17,12 @@ import androidx.annotation.Nullable;
 import fi.digi.savonia.movesense.R;
 
 /**
- * Räätälöity lista-adapteri Bluetooth LE hakuun
+ * Bluetooth LE-hakutuloksille Custom lista-adapteri
  */
 public class CustomDeviceListAdapter extends ArrayAdapter<RxBleDevice> {
 
     /**
-     * Listan data listassa
+     * Bluetooth LE-laitteet listassa
      */
     private ArrayList<RxBleDevice> dataSet;
     /**

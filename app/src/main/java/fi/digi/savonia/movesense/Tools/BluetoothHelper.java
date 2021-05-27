@@ -19,19 +19,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Aputyökalu Bluetooth LE - yhteyden käytön yksinkertaistamiseen
+ * Helppokäyttöinen wrapper Bluetooth LE - hakuun.
  */
 public class BluetoothHelper {
 
+    /**
+     * Bluetooth LE-client
+     */
     RxBleClient rxBleClient;
+    /**
+     * Bluetooth LE-haun instanssi
+     */
     Disposable scanSubscription;
+    /**
+     * Sovelluksen konteksti
+     */
     Context _context;
+    /**
+     * Tapahtumien kuuntelija
+     */
     BluetoothActionListener _bluetoothActionListener;
 
     List<String> FoundDevices = new ArrayList<String>();
 
     /**
-     * Luo Bluetooth LE-clientin
+     * Bluetooth LE-clientin luominen ja määritys
      * @param context Sovelluksen konteksti
      */
     public BluetoothHelper(Context context)
@@ -41,7 +53,7 @@ public class BluetoothHelper {
     }
 
     /**
-     * Asettaa kuuntelijan luokkaan.
+     * Kuuntelijan asetus luokan tapahtumille.
      * @param bluetoothActionListener
      */
     public void SetBluetoothActionListener(BluetoothActionListener bluetoothActionListener)
@@ -50,7 +62,7 @@ public class BluetoothHelper {
     }
 
     /**
-     * Tarkistaa Bluetooth LE-yhteydelle vaadittujen vaatimusten täyttymisen
+     * Bluetooth LE-yhteyden vaatimusten tarkistus
      */
     public void CheckRequirements()
     {
@@ -82,7 +94,7 @@ public class BluetoothHelper {
     }
 
     /**
-     * Tarkista onko Bluetooth Le-skannaus käynnissä.
+     * Tarkistaa Bluetooth LE-haun aktiivisuuden
      * @return Onko Skannaus käynnissä?
      */
     public boolean IsScanning()
@@ -98,7 +110,7 @@ public class BluetoothHelper {
     }
 
     /**
-     * Lopettaa skannauksen
+     * Bluetooth LE-haun keskeytys.
      */
     private void dispose() {
         scanSubscription.dispose();
@@ -107,7 +119,7 @@ public class BluetoothHelper {
 
 
     /**
-     * Skannaus on löytänyt Bluetooth LE-laitteen
+     * Bluetooth LE-haussa on löytynyt laite. Tarkastaa onko laite Movesense-sensori.
      * @param scanResult
      */
     private void onScanResult(ScanResult scanResult)
@@ -141,7 +153,7 @@ public class BluetoothHelper {
 
 
     /**
-     * Skannauksen aikana on tapahtunut virhe!
+     * Bluetooth LE-haun aikana on tapahtunut virhe!
      * @param throwable Virhe
      */
     private void onScanFailure(Throwable throwable) {
@@ -150,7 +162,7 @@ public class BluetoothHelper {
     }
 
     /**
-     * Skannaa Bluetooth LE-laitteita
+     * Bluetooth LE-haun käynnistys.
      * @param timeout Skannauksen kesto sekuntia
      */
     public void Scan(long timeout)
@@ -175,7 +187,7 @@ public class BluetoothHelper {
     }
 
     /**
-     * Pysäytä skannaus
+     * Bluetooth LE - haun pysäyttäminen. Tarkastaa onko haku käynnissä.
      */
     public void StopScan()
     {

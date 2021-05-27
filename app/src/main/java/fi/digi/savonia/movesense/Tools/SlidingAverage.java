@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Aputyökalu liukuvankeskiarvon laskemiseen
+ * Helppokäyttöinen wrapper liukuvan keskiarvon laskemiseen
  */
 public class SlidingAverage {
 
     /**
-     * Liukuvan keskiarvon data on listassa
+     * Näytteet ovat listassa
      */
     List<Float> buffer = new ArrayList<>();
     /**
@@ -19,7 +19,7 @@ public class SlidingAverage {
 
 
     /**
-     * Liukuvan keskiarvon asetusten määritteleminen
+     * Liukuvan keskiarvon asetusten määrittely
      * @param bufferSize Liukuvan keskiarvon pituus
      */
     public SlidingAverage(int bufferSize)
@@ -28,7 +28,7 @@ public class SlidingAverage {
     }
 
     /**
-     * Float arvon lisääminen listaan
+     * Näytteen lisäys listaan.
      * @param value Listaan lisättävä arvo
      */
     public synchronized void Add(float value)

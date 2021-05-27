@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Aputyökalu Http-pyynnön lähettämiseen
+ * Helppokäyttöinen wrapper Http-pyynnön lähettämiseen (async).
  */
 public class HttpHelper {
 

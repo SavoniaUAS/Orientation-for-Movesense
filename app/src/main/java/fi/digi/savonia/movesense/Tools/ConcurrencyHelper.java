@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 
 /**
- * Aputyökalu rinnakkaissuorittamiseen Android-laitteilla
+ * Android-laitteille helppokäyttöinen wrapper samanaikaisien tehtävien suorittamiseen.
  */
 public class ConcurrencyHelper {
 
@@ -28,8 +28,8 @@ public class ConcurrencyHelper {
     private static volatile ConcurrencyHelper instance;
 
     /**
-     * Hae olemassa oleva instassi tai luo sellainen ensimmäisellä kerralla
-     * @return Rinnakkaussuorittamisen luokan
+     * Luokan instassin palautus tai sen luonti ensimmäisellä kerralla
+     * @return luokan staattinen instanssi
      */
     public static ConcurrencyHelper GetInstance()
     {
@@ -45,7 +45,7 @@ public class ConcurrencyHelper {
     }
 
     /**
-     * Alustaa luokan valmiiksi käyttöä varten
+     * Rinnakkaissuorittamisen säikeiden valmistelu käyttövalmiiksi.
      */
     private ConcurrencyHelper()
     {
@@ -61,7 +61,7 @@ public class ConcurrencyHelper {
     }
 
     /**
-     * Suorittaa Runnable toiminnon säie tyypissä.
+     * Suorittaa Runnable tehtävän valitussa säie tyypissä.
      * @param runnable Suoritettava toiminto
      * @param threadType Toiminnnon tyyppi
      */

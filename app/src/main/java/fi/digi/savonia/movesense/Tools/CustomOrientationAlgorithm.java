@@ -10,7 +10,7 @@ import fi.digi.savonia.movesense.Tools.ConcurrencyHelper;
 
 
 /**
- * Sensorifuusiota käyttävä asennon tunnistamisen algoritmi
+ * Helppokäyttöinen wrapper asennon arviointiin sensorifuusio-algoritmillä.
  */
 public class CustomOrientationAlgorithm {
 
@@ -31,8 +31,18 @@ public class CustomOrientationAlgorithm {
      */
     private MahonyAHRS filter_mahony = new MahonyAHRS();
 
-
+    /**
+     * Asennon arviointi sensorifuusio-algoritmilla
+     * @param deltaT Ajanjakso näytteiden välillä
+     * @param gyroscope Kulmanmuutos parametri Movesense-sensorilta
+     * @param acceleration Kiihtyvyys parametri Movesense-sensorilta
+     * @param magnetic Magnetometri parametri Movesense-sensorilta
+     * @return X-, Y- , Z-akselin kulma verrattuna nollapisteeseen. (Pitch, Roll ja Yaw). Yaw on lukittu 0 asteeseen.
+     */
     public Float3DVector calculateOrientation(float deltaT, float[] gyroscope, float[] acceleration, float[] magnetic) {
+
+        //https://sites.google.com/site/myimuestimationexperience/filters/complementary-filter
+        //Vaihtoehtoja sensorifuusion algoritmille on: MahonyAHRS tai MadgwickAHRS.
 
         Float alpha = 0.04f;
 
@@ -47,7 +57,8 @@ public class CustomOrientationAlgorithm {
         pitch+=gyroscope[2]*deltaT;
         roll+=gyroscope[1]*deltaT;
 
-        //https://sites.google.com/site/myimuestimationexperience/filters/complementary-filter
+
+
 
         pitchAcc = (float) Math.toDegrees(Math.atan((acceleration[2]/Math.sqrt(pow_y + pow_x))));
         pitch = (float) ((pitch *(1-alpha))+(pitchAcc * alpha));

@@ -2,7 +2,7 @@ package fi.digi.savonia.movesense.Tools;
 
 
 /**
- * Aputyökalu 3D vektorin 3 (X,Y,Z) laskemiseen
+ * Helppokäyttöinen wrapper vektori3 laskutoimituksiin
  */
 public class Vector3 {
     public float x;
